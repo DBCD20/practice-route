@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Storage Practice Using Arrays</title>
+    <style>
+        ul > li {
+            background: white;
+            border-radius: 10px;
+            border: 4px solid #35B6EC;
+            width: 400px;
+            list-style: none;
+            margin: 0.2em;
+            padding: 0.5em;
+        }
+        ul > li:hover {
+            cursor: pointer;
+            box-shadow: 0 1px 3px grey, 0 10px 20px lightgrey;
+            margin-bottom: 4px;
+        }
+        #edit_tab {
+            padding: 2em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input id="newName" type="text"  placeholder="Name" required>
+        <input id="details" type="text" placeholder="Details" required>
+        <input id="number" type="number" placeholder="Number" required>
+        <input id="submit" type="submit">
+    </div>
+    <div id="edit_tab">
+            <input id="editName" type="text" name="" required>
+            <input id="editdetails" type="text" required>
+            <input id="editnumber" type="number" required>
+            <input id="edit" type="submit" value="edit">
+        </div>
+    <div id="output">
+        <ul id="unorderedList"></ul>
+    </div>
+    <script>
+        var newName         = document.querySelector("#newName"),
+            details         = document.querySelector("#details"),
+            number          = document.querySelector("#number"),
+            submit          = document.querySelector("#submit"),
+            outputDiv       = document.querySelector("#output"),
+            listItem        = document.querySelector("#edit_tab"),
+            editNewName     = document.querySelector("#editName"),
+            editDetails     = document.querySelector("#editdetails"),
+            editNumber      = document.querySelector("#editnumber"),
+            edit          = document.querySelector("#edit"),
+            list            = document.querySelector("#unorderedList"),
+            fragment        = document.createDocumentFragment();
+/*==================================
+    SAVE FILES TO LOCAL STORAGE     
+====================================*/
+ var toLocalStorage = function(nameOfStorage){
+            toStore = JSON.stringify(nameOfStorage);
+            localStorage.setItem("information", toStore)
+        }
+        
+        var storage;
+        var fromStorage = JSON.parse(window.localStorage.getItem("information"));
+        if(fromStorage){
+            storage = fromStorage;
+        } else {
+            storage = [];
+        }
+
+        var addInfo = function(){
+            if(newName.value && details.value && number.value){
+                storage.push({
+                            name: newName.value,
+                            details: details.value,
+                            number: number.value
+                        });
+            alert("Information successfully added!")
+            toLocalStorage(storage);
+            displayList();
+
+            } else {alert("Please insert valid details!")}
+            
+        }
+        
+       var d;
+        var displayList = function(){
+            if(storage){
+                for(var i = 0; i < storage.length; i++){
+                var li = document.createElement("li");
+                    li.innerHTML = "name: " + storage[i].name + "<br />"
+                                   + "details: " + storage[i].details + "<br />"
+                                   + "number: " + storage[i].number;
+                    li.setAttribute("id", i);
+ //========================================//
+//  PLACING PREVIOUS VALUES IN EDIT FORM   //
+//=========================================//                   
+                    li.addEventListener("click", function(){
+                    listItem.style.display = "block";
+                    editNewName.value   = storage[event.currentTarget.id].name;
+                    editDetails.value   = storage[event.currentTarget.id].details;
+                    editNumber.value    = storage[event.currentTarget.id].number;
+                    d = event.currentTarget.id;
+                    })
+                    fragment.appendChild(li);                         
+            }
+            list.innerHTML = "";
+            list.appendChild(fragment);
+            } else {alert("Nothing to show here")}   
+        }
+//==============================//
+//  SAVING EDITED INFORMATION   //
+//==============================//
+edit.addEventListener("click", function(){
+    listItem.style.display = "none";
+ if(editNewName.value && editDetails.value && editNumber.value){
+     storage[d] ={
+                 name: editNewName.value,
+                 details: editDetails.value,
+                 number: editNumber.value
+             };
+ alert("Information successfully added!")
+ toLocalStorage(storage);
+ displayList();
+
+ } else {alert("Please insert valid details!")}
+});
+        window.onload = displayList();
+        submit.addEventListener("click", addInfo);
+
+    </script>
+</body>
+</html>
