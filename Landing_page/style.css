@@ -8,7 +8,8 @@
     min-height: 700px;
     background: linear-gradient(to right, rgba(44,126,204,0.9),rgba(44,126,204,0.9)), url('https://images.pexels.com/photos/433267/pexels-photo-433267.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') no-repeat center;
     background-size: cover;
-    background
+    background-attachment: local;
+    background-attachment: fixed;
     
 }
 .bg-white {
@@ -19,4 +20,38 @@
 .clip-path-first {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 77%);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 77%);
+}
+.hovered {
+    max-width: 400px;
+}
+img {
+    width: 100% !important;
+    max-height: 320px !important;
+    
+}
+.padded {
+    padding: 6em 1em !important;
+}
+.covered {
+    object-fit: cover; 
+}
+.hovered:hover {
+    -webkit-box-shadow: -1px 10px 29px -9px rgba(143,143,143,1);
+    -moz-box-shadow: -1px 10px 29px -9px rgba(143,143,143,1);
+    box-shadow: -1px 10px 29px -9px rgba(143,143,143,1);
+    cursor: pointer;
+    transition: 0.2s ease-out;
+}
+@media (min-width: 692px){
+    .clip-path-first {
+        -webkit-clip-path: none;
+        clip-path: none;
+    }
+    .d-flex {
+        flex-flow: row wrap !important;
+    }
+    .hovered:last-child {
+        
+    }
+
 }
